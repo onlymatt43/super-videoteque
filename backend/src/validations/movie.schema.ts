@@ -9,7 +9,8 @@ export const createMovieSchema = {
     bunnyLibraryId: z.string().min(1),
     bunnyVideoId: z.string().min(1),
     videoPath: z.string().min(1),
-    rentalDurationHours: z.number().int().positive().default(48)
+    rentalDurationHours: z.number().int().positive().default(48),
+    isFreePreview: z.boolean().default(false)
   })
 };
 

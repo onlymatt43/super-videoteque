@@ -9,6 +9,7 @@ export interface Movie {
   videoPath: string;
   previewUrl?: string;
   rentalDurationHours: number;
+  isFreePreview?: boolean;
 }
 
 export interface Rental {

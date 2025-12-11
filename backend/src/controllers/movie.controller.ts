@@ -8,6 +8,11 @@ export const listMovies = async (_req: Request, res: Response) => {
   res.json({ data: movies });
 };
 
+export const listFreePreviews = async (_req: Request, res: Response) => {
+  const movies = await movieService.listFreePreviews();
+  res.json({ data: movies });
+};
+
 export const getMovieById = async (req: Request, res: Response) => {
   const movie = await movieService.getById(req.params.id);
   if (!movie) {

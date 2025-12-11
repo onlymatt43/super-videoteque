@@ -5,6 +5,10 @@ const list = async (): Promise<MovieDoc[]> => {
   return Movie.find().sort({ createdAt: -1 }).exec();
 };
 
+const listFreePreviews = async (): Promise<MovieDoc[]> => {
+  return Movie.find({ isFreePreview: true }).sort({ createdAt: -1 }).exec();
+};
+
 const getById = async (id: string | Types.ObjectId): Promise<MovieDoc | null> => {
   return Movie.findById(id).exec();
 };
@@ -16,6 +20,7 @@ const create = async (payload: MovieAttrs): Promise<MovieDoc> => {
 
 export const movieService = {
   list,
+  listFreePreviews,
   getById,
   create
 };

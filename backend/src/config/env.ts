@@ -14,6 +14,8 @@ const envSchema = z.object({
   BUNNY_SIGNING_KEY: z.string().min(1, 'BUNNY_SIGNING_KEY is required'),
   BUNNY_LIBRARY_ID: z.string().optional(),
   BUNNY_API_KEY: z.string().optional(),
+  BUNNY_PUBLIC_LIBRARY_ID: z.string().optional(),
+  BUNNY_PUBLIC_PULL_ZONE_HOST: z.string().optional(),
   DEFAULT_RENTAL_HOURS: z.string().default('48')
 });
 
@@ -37,6 +39,8 @@ export const settings = {
   bunnySigningKey: env.BUNNY_SIGNING_KEY,
   bunnyLibraryId: env.BUNNY_LIBRARY_ID,
   bunnyApiKey: env.BUNNY_API_KEY,
+  bunnyPublicLibraryId: env.BUNNY_PUBLIC_LIBRARY_ID,
+  bunnyPublicPullZoneHost: env.BUNNY_PUBLIC_PULL_ZONE_HOST?.replace(/^https?:\/\//, ''),
   defaultRentalHours: Number(env.DEFAULT_RENTAL_HOURS)
 };
 

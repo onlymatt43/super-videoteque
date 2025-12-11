@@ -8,7 +8,13 @@
     "build": "tsc -p tsconfig.json",
     "start": "node dist/server.js",
     "lint": "echo 'TODO: add linting'",
-    "seed:movies": "tsx scripts/seedMovies.ts"
+    "seed:movies": "tsx scripts/seedMovies.ts",
+    "previews": "tsx scripts/managePreviews.ts",
+    "previews:list": "tsx scripts/managePreviews.ts list",
+    "previews:enable": "tsx scripts/managePreviews.ts enable",
+    "previews:disable": "tsx scripts/managePreviews.ts disable",
+    "previews:enable-all": "tsx scripts/managePreviews.ts enable-all",
+    "previews:disable-all": "tsx scripts/managePreviews.ts disable-all"
   },
   "dependencies": {
     "axios": "^1.6.8",

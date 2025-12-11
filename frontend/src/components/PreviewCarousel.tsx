@@ -1,24 +1,19 @@
 import { useEffect, useState } from 'react';
 import { Play } from 'lucide-react';
-import type { Movie } from '../types';
-import { fetchMovies } from '../api/movies';
+import { fetchPublicPreviews, type PublicPreview } from '../api/movies';
 import { PreviewPlayer } from './PreviewPlayer';
 import clsx from 'clsx';
 
 const FALLBACK_POSTER = 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=600&q=60';
-const FALLBACK_PREVIEW = 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4';
 
 interface PreviewCardProps {
-  movie: Movie;
+  preview: PublicPreview;
   isActive: boolean;
   onHover: () => void;
   onLeave: () => void;
 }
 
-const PreviewCard = ({ movie, isActive, onHover, onLeave }: PreviewCardProps) => {
-  const poster = movie.thumbnailUrl || FALLBACK_POSTER;
-  const previewSource = movie.previewUrl || FALLBACK_PREVIEW;
-
+const PreviewCard = ({ preview, isActive, onHover, onLeave }: PreviewCardProps) => {
   return (
     <article
       onMouseEnter={onHover}
@@ -28,7 +23,7 @@ const PreviewCard = ({ movie, isActive, onHover, onLeave }: PreviewCardProps) =>
         isActive ? 'scale-105 ring-2 ring-ember' : 'hover:scale-102'
       )}
     >
-      <img src={poster} alt={movie.title} className="h-full w-full object-cover" loading="lazy" />
+      <img src={preview.thumbnailUrl || FALLBACK_POSTER} alt={preview.title} className="h-full w-full object-cover" loading="lazy" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-transparent opacity-70" />
       
       {/* Play icon overlay */}
@@ -43,33 +38,33 @@ const PreviewCard = ({ movie, isActive, onHover, onLeave }: PreviewCardProps) =>
 
       {/* Title */}
       <div className="absolute inset-x-0 bottom-0 p-3">
-        <p className="text-sm font-semibold text-white line-clamp-1">{movie.title}</p>
+        <p className="text-sm font-semibold text-white line-clamp-1">{preview.title}</p>
         <p className="text-xs text-ember">Preview gratuit</p>
       </div>
 
       {/* Preview video */}
-      <PreviewPlayer active={isActive} src={previewSource} />
+      <PreviewPlayer active={isActive} src={preview.previewUrl} />
     </article>
   );
 };
 
 export const PreviewCarousel = () => {
-  const [movies, setMovies] = useState<Movie[]>([]);
+  const [previews, setPreviews] = useState<PublicPreview[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeId, setActiveId] = useState<string | null>(null);
 
   useEffect(() => {
-    const loadMovies = async () => {
+    const loadPreviews = async () => {
       try {
-        const data = await fetchMovies();
-        setMovies(data.slice(0, 8)); // Limiter à 8 previews
+        const data = await fetchPublicPreviews();
+        setPreviews(data);
       } catch (err) {
-        console.error('Failed to load preview movies:', err);
+        console.error('Failed to load public previews:', err);
       } finally {
         setLoading(false);
       }
     };
-    loadMovies();
+    loadPreviews();
   }, []);
 
   if (loading) {
@@ -87,7 +82,7 @@ export const PreviewCarousel = () => {
     );
   }
 
-  if (!movies.length) return null;
+  if (!previews.length) return null;
 
   return (
     <section className="mt-16">
@@ -98,12 +93,12 @@ export const PreviewCarousel = () => {
         <span className="text-xs uppercase tracking-[0.4em] text-slate">Survolez pour preview</span>
       </div>
       <div className="scroll-mask flex gap-5 overflow-x-auto pb-4">
-        {movies.map((movie) => (
+        {previews.map((preview) => (
           <PreviewCard
-            key={movie._id}
-            movie={movie}
-            isActive={activeId === movie._id}
-            onHover={() => setActiveId(movie._id)}
+            key={preview.id}
+            preview={preview}
+            isActive={activeId === preview.id}
+            onHover={() => setActiveId(preview.id)}
             onLeave={() => setActiveId(null)}
           />
         ))}

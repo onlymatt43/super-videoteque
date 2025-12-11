@@ -1,11 +1,12 @@
 import { Router } from 'express';
-import { createMovie, getMovieById, listMovies } from '../controllers/movie.controller.js';
+import { createMovie, getMovieById, listMovies, listFreePreviews } from '../controllers/movie.controller.js';
 import { validateRequest } from '../middlewares/validateRequest.js';
 import { createMovieSchema, getMovieSchema } from '../validations/movie.schema.js';
 
 const router = Router();
 
 router.get('/', listMovies);
+router.get('/free-previews', listFreePreviews);
 router.get('/:id', validateRequest(getMovieSchema), getMovieById);
 router.post('/', validateRequest(createMovieSchema), createMovie);
 

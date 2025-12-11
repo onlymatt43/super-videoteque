@@ -10,6 +10,7 @@ export interface MovieAttrs {
   bunnyVideoId: string;
   videoPath: string;
   rentalDurationHours: number;
+  isFreePreview: boolean;
 }
 
 export type MovieDoc = HydratedDocument<MovieAttrs>;
@@ -24,7 +25,8 @@ const movieSchema = new Schema<MovieDoc>(
     bunnyLibraryId: { type: String, required: true },
     bunnyVideoId: { type: String, required: true },
     videoPath: { type: String, required: true },
-    rentalDurationHours: { type: Number, default: 48 }
+    rentalDurationHours: { type: Number, default: 48 },
+    isFreePreview: { type: Boolean, default: false }
   },
   { timestamps: true }
 );
