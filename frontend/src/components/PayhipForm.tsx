@@ -61,7 +61,7 @@ export const PayhipForm = () => {
       <button
         type="submit"
         disabled={status === 'loading'}
-        className="flex w-full items-center justify-center gap-2 rounded-xl bg-ember px-4 py-3 text-center text-base font-semibold uppercase tracking-[0.3em] text-white shadow-glow transition hover:bg-[#f6121d] disabled:cursor-not-allowed disabled:bg-ember/50"
+        className="flex w-full items-center justify-center gap-2 rounded-xl bg-ember px-4 py-3 text-center text-base font-semibold uppercase tracking-[0.3em] text-night shadow-glow transition hover:bg-yellow-400 disabled:cursor-not-allowed disabled:bg-ember/50"
       >
         {status === 'loading' ? (
           <>

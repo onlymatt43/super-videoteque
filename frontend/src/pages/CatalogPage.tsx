@@ -77,7 +77,7 @@ export const CatalogPage = () => {
             <p className="mt-4 text-slate">{featured.description}</p>
             <button
               type="button"
-              className="mt-6 inline-flex items-center gap-3 rounded-full bg-ember px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-white shadow-glow transition hover:bg-[#f6121d]"
+              className="mt-6 inline-flex items-center gap-3 rounded-full bg-ember px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-night shadow-glow transition hover:bg-yellow-400"
               onClick={() => handleWatch(featured)}
             >
               Regarder maintenant

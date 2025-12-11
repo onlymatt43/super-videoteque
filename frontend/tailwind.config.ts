@@ -5,17 +5,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        night: '#0b0b12',
-        "night-light": '#151524',
-        ember: '#e50914',
-        slate: '#9ea7c3'
+        night: '#0a1214',
+        "night-light": '#0f1d20',
+        ember: '#ffd700',
+        slate: '#8fb3b8'
       },
       fontFamily: {
         display: ['"Bebas Neue"', 'sans-serif'],
         body: ['"Inter"', 'system-ui', 'sans-serif']
       },
       boxShadow: {
-        glow: '0 10px 40px rgba(229, 9, 20, 0.35)'
+        glow: '0 10px 40px rgba(255, 215, 0, 0.35)'
       }
     }
   },
