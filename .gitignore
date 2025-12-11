@@ -28,3 +28,5 @@ Thumbs.db
 *.sln
 *.sw?
 *.vsix
+.logs/
+.pids/
