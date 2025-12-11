@@ -30,3 +30,6 @@ Thumbs.db
 *.vsix
 .logs/
 .pids/
+*.pid
+*.log
+.ngrok-url
