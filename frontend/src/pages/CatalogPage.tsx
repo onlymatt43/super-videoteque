@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { Carousel } from '../components/Carousel';
 import { useCatalog } from '../features/catalog/useCatalog';
 import { useSession } from '../features/session/useSession';
-import type { Movie } from '../types';
+import type { Movie, MovieCategory } from '../types';
+import { CATEGORY_LABELS } from '../types';
 import { VideoModal } from '../components/VideoModal';
 import { createRental, fetchRental } from '../api/rentals';
 import { AIChat } from '../components/AIChat';
@@ -36,6 +37,24 @@ export const CatalogPage = () => {
   }, [movies.length, fetchCatalog]);
 
   const featured = useMemo(() => movies[0], [movies]);
+
+  // Group movies by category
+  const moviesByCategory = useMemo(() => {
+    const groups: Record<string, Movie[]> = {};
+    const categories: MovieCategory[] = ['uncut', 'solo', 'duo', 'bts', 'compilation'];
+    
+    categories.forEach(cat => {
+      const catMovies = movies.filter(m => m.category === cat);
+      if (catMovies.length > 0) {
+        groups[cat] = catMovies;
+      }
+    });
+    
+    return groups;
+  }, [movies]);
+
+  // Recent movies (last 10)
+  const recentMovies = useMemo(() => movies.slice(0, 10), [movies]);
 
   const handleWatch = async (movie: Movie) => {
     if (!payhipCode || !customerEmail) {
@@ -108,7 +127,20 @@ export const CatalogPage = () => {
       {loading && <p className="text-center text-slate">Chargement du catalogue...</p>}
       {error && <p className="text-center text-red-400">{error}</p>}
 
-      {!loading && movies.length > 0 && <Carousel title="Nouveautés" movies={movies} onWatch={handleWatch} />}
+      {/* Nouveautés */}
+      {!loading && recentMovies.length > 0 && (
+        <Carousel title="Nouveautés" movies={recentMovies} onWatch={handleWatch} />
+      )}
+
+      {/* Sections par catégorie */}
+      {!loading && Object.entries(moviesByCategory).map(([category, catMovies]) => (
+        <Carousel 
+          key={category} 
+          title={CATEGORY_LABELS[category as MovieCategory]} 
+          movies={catMovies} 
+          onWatch={handleWatch} 
+        />
+      ))}
 
       <VideoModal
         open={videoState.open}

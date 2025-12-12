@@ -9,6 +9,11 @@ const findActiveRental = async (movieId: Types.ObjectId, email: string): Promise
   }).exec();
 };
 
+// Check if a payhip code was already used by a DIFFERENT email
+const findRentalByPayhipCode = async (payhipCode: string): Promise<RentalDoc | null> => {
+  return Rental.findOne({ payhipCode }).sort({ createdAt: -1 }).exec();
+};
+
 const createRental = async (payload: {
   movie: Types.ObjectId;
   customerEmail: string;
@@ -42,6 +47,7 @@ const expireIfNeeded = async (rental: RentalDoc): Promise<RentalDoc> => {
 
 export const rentalService = {
   findActiveRental,
+  findRentalByPayhipCode,
   createRental,
   findById,
   saveSignedUrl,

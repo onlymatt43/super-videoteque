@@ -10,6 +10,7 @@ export const AdminPage = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState<string | null>(null);
   const [filter, setFilter] = useState<MovieCategory | 'all'>('all');
+  const [tagFilter, setTagFilter] = useState<string | null>(null);
 
   useEffect(() => {
     loadMovies();
@@ -63,9 +64,14 @@ export const AdminPage = () => {
     }
   };
 
-  const filteredMovies = filter === 'all' 
-    ? movies 
-    : movies.filter(m => (m.category || 'uncategorized') === filter);
+  const filteredMovies = movies.filter(m => {
+    const matchesCategory = filter === 'all' || (m.category || 'uncategorized') === filter;
+    const matchesTag = !tagFilter || (m.tags || []).includes(tagFilter);
+    return matchesCategory && matchesTag;
+  });
+
+  // Get all unique tags from all movies
+  const allTags = [...new Set(movies.flatMap(m => m.tags || []))].sort();
 
   const getCategoryCounts = () => {
     const counts: Record<string, number> = { all: movies.length };
@@ -90,8 +96,8 @@ export const AdminPage = () => {
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-[#ffd700] mb-6">🎬 Admin - Gestion des vidéos</h1>
         
-        {/* Filter tabs */}
-        <div className="flex flex-wrap gap-2 mb-6">
+        {/* Category filter tabs */}
+        <div className="flex flex-wrap gap-2 mb-4">
           <button
             onClick={() => setFilter('all')}
             className={`px-4 py-2 rounded-lg transition-colors ${
@@ -116,6 +122,38 @@ export const AdminPage = () => {
             </button>
           ))}
         </div>
+
+        {/* Tags filter */}
+        {allTags.length > 0 && (
+          <div className="mb-6">
+            <span className="text-xs text-gray-400 mr-2">Tags:</span>
+            <div className="inline-flex flex-wrap gap-2">
+              <button
+                onClick={() => setTagFilter(null)}
+                className={`px-3 py-1 rounded-full text-xs transition-colors ${
+                  tagFilter === null
+                    ? 'bg-[#ffd700] text-[#0a1214] font-bold'
+                    : 'bg-[#1a2428] text-gray-300 hover:bg-[#2a3438]'
+                }`}
+              >
+                Tous
+              </button>
+              {allTags.map(tag => (
+                <button
+                  key={tag}
+                  onClick={() => setTagFilter(tag)}
+                  className={`px-3 py-1 rounded-full text-xs transition-colors ${
+                    tagFilter === tag
+                      ? 'bg-[#ffd700] text-[#0a1214] font-bold'
+                      : 'bg-[#1a2428] text-gray-300 hover:bg-[#2a3438]'
+                  }`}
+                >
+                  #{tag}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Movies grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">

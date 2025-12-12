@@ -28,7 +28,19 @@ export const createRental = async (req: Request, res: Response) => {
     throw new AppError('Movie not found', StatusCodes.NOT_FOUND);
   }
 
-  await validatePayhipCode(payhipCode);
+  // Validate the Payhip code with their API
+  const payhipValidation = await validatePayhipCode(payhipCode);
+
+  // Check if this code was already used by a DIFFERENT email
+  const existingRentalWithCode = await rentalService.findRentalByPayhipCode(payhipCode);
+  if (existingRentalWithCode && existingRentalWithCode.customerEmail !== customerEmail.toLowerCase()) {
+    throw new AppError('Ce code a déjà été utilisé avec un autre email', StatusCodes.FORBIDDEN);
+  }
+
+  // Optional: Check if the email matches the Payhip buyer email
+  if (payhipValidation.email && payhipValidation.email.toLowerCase() !== customerEmail.toLowerCase()) {
+    throw new AppError('L\'email ne correspond pas à l\'achat Payhip', StatusCodes.FORBIDDEN);
+  }
 
   const activeRental = await rentalService.findActiveRental(movie._id, customerEmail);
   if (activeRental) {
