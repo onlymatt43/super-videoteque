@@ -1,5 +1,5 @@
 import { apiClient } from './client';
-import type { ApiResponse, Movie } from '../types';
+import type { ApiResponse, Movie, MovieCategory } from '../types';
 
 export interface PublicPreview {
   id: string;
@@ -17,6 +17,11 @@ export const fetchMovies = async (): Promise<Movie[]> => {
 
 export const fetchFreePreviews = async (): Promise<Movie[]> => {
   const { data } = await apiClient.get<ApiResponse<Movie[]>>('/api/movies/free-previews');
+  return data.data;
+};
+
+export const updateMovie = async (id: string, updates: { category?: MovieCategory; title?: string; isFreePreview?: boolean; tags?: string[] }): Promise<Movie> => {
+  const { data } = await apiClient.patch<ApiResponse<Movie>>(`/api/movies/${id}`, updates);
   return data.data;
 };
 

@@ -1,0 +1,15 @@
+tunnel: 07ca92bb-0de2-405c-9041-9a0612aa6e3c
+credentials-file: /Users/mathieucourchesne/.cloudflared/07ca92bb-0de2-405c-9041-9a0612aa6e3c.json
+
+ingress:
+  # API Backend
+  - hostname: video.onlymatt.ca
+    path: /api/*
+    service: http://localhost:4000
+  
+  # Frontend (tout le reste)
+  - hostname: video.onlymatt.ca
+    service: http://localhost:5173
+  
+  # Catch-all (requis par Cloudflare)
+  - service: http_status:404

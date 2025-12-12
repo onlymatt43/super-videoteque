@@ -14,7 +14,7 @@ interface PreviewCardProps {
 
 const PreviewCard = ({ preview, isActive, onHover, onLeave }: PreviewCardProps) => {
   const [showTitle, setShowTitle] = useState(false);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     if (isActive) {

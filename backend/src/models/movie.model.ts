@@ -1,5 +1,7 @@
 import { Schema, model, type HydratedDocument, type Model } from 'mongoose';
 
+export type MovieCategory = 'uncategorized' | 'uncut' | 'solo' | 'duo' | 'bts' | 'compilation';
+
 export interface MovieAttrs {
   title: string;
   slug: string;
@@ -11,6 +13,8 @@ export interface MovieAttrs {
   videoPath: string;
   rentalDurationHours: number;
   isFreePreview: boolean;
+  category: MovieCategory;
+  tags: string[];
 }
 
 export type MovieDoc = HydratedDocument<MovieAttrs>;
@@ -26,7 +30,9 @@ const movieSchema = new Schema<MovieDoc>(
     bunnyVideoId: { type: String, required: true },
     videoPath: { type: String, required: true },
     rentalDurationHours: { type: Number, default: 48 },
-    isFreePreview: { type: Boolean, default: false }
+    isFreePreview: { type: Boolean, default: false },
+    category: { type: String, enum: ['uncategorized', 'uncut', 'solo', 'duo', 'bts', 'compilation'], default: 'uncategorized' },
+    tags: { type: [String], default: [] }
   },
   { timestamps: true }
 );

@@ -1,3 +1,14 @@
+export type MovieCategory = 'uncategorized' | 'uncut' | 'solo' | 'duo' | 'bts' | 'compilation';
+
+export const CATEGORY_LABELS: Record<MovieCategory, string> = {
+  uncategorized: 'Non classé',
+  uncut: 'Uncut',
+  solo: 'Solo',
+  duo: 'Duo',
+  bts: 'Behind the Scenes',
+  compilation: 'Compilation'
+};
+
 export interface Movie {
   _id: string;
   title: string;
@@ -10,6 +21,8 @@ export interface Movie {
   previewUrl?: string;
   rentalDurationHours: number;
   isFreePreview?: boolean;
+  category?: MovieCategory;
+  tags?: string[];
 }
 
 export interface Rental {

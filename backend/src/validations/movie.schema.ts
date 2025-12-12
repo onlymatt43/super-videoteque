@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+const categoryEnum = z.enum(['uncategorized', 'uncut', 'solo', 'duo', 'bts', 'compilation']);
+
 export const createMovieSchema = {
   body: z.object({
     title: z.string().min(1),
@@ -10,12 +12,28 @@ export const createMovieSchema = {
     bunnyVideoId: z.string().min(1),
     videoPath: z.string().min(1),
     rentalDurationHours: z.number().int().positive().default(48),
-    isFreePreview: z.boolean().default(false)
+    isFreePreview: z.boolean().default(false),
+    category: categoryEnum.default('uncategorized'),
+    tags: z.array(z.string()).default([])
   })
 };
 
 export const getMovieSchema = {
   params: z.object({
     id: z.string().min(1)
+  })
+};
+
+export const updateMovieSchema = {
+  params: z.object({
+    id: z.string().min(1)
+  }),
+  body: z.object({
+    title: z.string().min(1).optional(),
+    description: z.string().optional(),
+    category: categoryEnum.optional(),
+    isFreePreview: z.boolean().optional(),
+    rentalDurationHours: z.number().int().positive().optional(),
+    tags: z.array(z.string()).optional()
   })
 };

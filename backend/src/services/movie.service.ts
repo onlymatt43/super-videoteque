@@ -18,9 +18,14 @@ const create = async (payload: MovieAttrs): Promise<MovieDoc> => {
   return movie.save();
 };
 
+const update = async (id: string, payload: Partial<MovieAttrs>): Promise<MovieDoc | null> => {
+  return Movie.findByIdAndUpdate(id, payload, { new: true }).exec();
+};
+
 export const movieService = {
   list,
   listFreePreviews,
   getById,
-  create
+  create,
+  update
 };

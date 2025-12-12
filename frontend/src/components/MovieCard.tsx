@@ -28,7 +28,7 @@ export const MovieCard = ({ movie, onWatch }: Props) => {
   const [isHovered, setIsHovered] = useState(false);
   const [aspectRatio, setAspectRatio] = useState<AspectRatio>('vertical');
   const [showTitle, setShowTitle] = useState(false);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (shouldPreview && !isActive) {

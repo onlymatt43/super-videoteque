@@ -44,3 +44,11 @@ export const createMovie = async (req: Request, res: Response) => {
   const movie = await movieService.create(req.body);
   res.status(StatusCodes.CREATED).json({ data: movie });
 };
+
+export const updateMovie = async (req: Request, res: Response) => {
+  const movie = await movieService.update(req.params.id, req.body);
+  if (!movie) {
+    throw new AppError('Movie not found', StatusCodes.NOT_FOUND);
+  }
+  res.json({ data: movie });
+};

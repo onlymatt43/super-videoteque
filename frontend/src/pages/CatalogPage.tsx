@@ -5,6 +5,7 @@ import { useSession } from '../features/session/useSession';
 import type { Movie } from '../types';
 import { VideoModal } from '../components/VideoModal';
 import { createRental, fetchRental } from '../api/rentals';
+import { AIChat } from '../components/AIChat';
 
 interface VideoState {
   open: boolean;
@@ -26,6 +27,7 @@ export const CatalogPage = () => {
   const fetchCatalog = useCatalog((state) => state.fetchCatalog);
   const { payhipCode, customerEmail, rentals, upsertRental } = useSession();
   const [videoState, setVideoState] = useState<VideoState>(initialState);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   useEffect(() => {
     if (!movies.length) {
@@ -69,6 +71,18 @@ export const CatalogPage = () => {
 
   return (
     <div className="space-y-12">
+      {/* AI Assistant button */}
+      <button 
+        onClick={() => setIsChatOpen(true)}
+        className="fixed top-6 right-6 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-night-light text-ember transition-all hover:bg-ember hover:text-night hover:scale-110 shadow-glow"
+        title="Assistant AI"
+      >
+        <span className="text-lg font-bold">?</span>
+      </button>
+
+      {/* AI Chat Modal */}
+      <AIChat isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
+
       {featured && (
         <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-black via-night to-night-light p-8">
           <div className="max-w-2xl">
