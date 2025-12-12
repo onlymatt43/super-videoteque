@@ -5,6 +5,4 @@ tunnels:
   backend:
     addr: 4000
     proto: http
-  frontend:
-    addr: 4173
-    proto: http
+    domain: vendibly-constrictive-hillary.ngrok-free.dev
