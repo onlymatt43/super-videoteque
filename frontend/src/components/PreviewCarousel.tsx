@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { Play } from 'lucide-react';
+import { useEffect, useState, useRef } from 'react';
 import { fetchPublicPreviews, type PublicPreview } from '../api/movies';
 import { PreviewPlayer } from './PreviewPlayer';
 import clsx from 'clsx';
@@ -14,32 +13,48 @@ interface PreviewCardProps {
 }
 
 const PreviewCard = ({ preview, isActive, onHover, onLeave }: PreviewCardProps) => {
+  const [showTitle, setShowTitle] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    if (isActive) {
+      // Show title after 5 seconds of hovering
+      timerRef.current = setTimeout(() => {
+        setShowTitle(true);
+      }, 5000);
+    } else {
+      // Reset when mouse leaves
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+      setShowTitle(false);
+    }
+
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, [isActive]);
+
   return (
     <article
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
       className={clsx(
         'relative h-56 w-40 flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl bg-night-light poster-shadow transition-all duration-300',
-        isActive ? 'scale-105 ring-2 ring-ember' : 'hover:scale-102'
+        isActive ? 'scale-105 ring-2 ring-ember' : ''
       )}
     >
       <img src={preview.thumbnailUrl || FALLBACK_POSTER} alt={preview.title} className="h-full w-full object-cover" loading="lazy" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-transparent opacity-70" />
-      
-      {/* Play icon overlay */}
-      <div className={clsx(
-        'absolute inset-0 flex items-center justify-center transition-opacity duration-300',
-        isActive ? 'opacity-0' : 'opacity-100'
-      )}>
-        <div className="rounded-full bg-ember/80 p-3">
-          <Play size={20} className="text-night" fill="currentColor" />
-        </div>
-      </div>
 
-      {/* Title */}
-      <div className="absolute inset-x-0 bottom-0 p-3">
+      {/* Title - appears after 5 seconds */}
+      <div className={clsx(
+        'absolute inset-x-0 bottom-0 p-3 transition-opacity duration-500',
+        showTitle ? 'opacity-100' : 'opacity-0'
+      )}>
         <p className="text-sm font-semibold text-white line-clamp-1">{preview.title}</p>
-        <p className="text-xs text-ember">Preview gratuit</p>
       </div>
 
       {/* Preview video */}
