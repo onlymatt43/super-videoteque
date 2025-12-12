@@ -73,6 +73,14 @@ const extractVideoPath = (video: BunnyVideoItem): string => {
 };
 
 const extractThumbnail = (video: BunnyVideoItem): string | undefined => {
+  // Construire l'URL de la thumbnail directement depuis Bunny CDN
+  // Format: https://{pull-zone}/{videoId}/thumbnail.jpg
+  const pullZone = settings.bunnyPullZoneHost;
+  if (pullZone && video.guid) {
+    return `https://${pullZone}/${video.guid}/thumbnail.jpg`;
+  }
+  
+  // Fallbacks
   if (video.thumbnailUrl) return video.thumbnailUrl;
   if (video.previewGifUrl) return video.previewGifUrl;
   if (video.previewVideoUrl) {
@@ -84,6 +92,17 @@ const extractThumbnail = (video: BunnyVideoItem): string | undefined => {
     }
   }
   return undefined;
+};
+
+const extractPreviewUrl = (video: BunnyVideoItem): string | undefined => {
+  // Construire l'URL du preview directement depuis Bunny CDN
+  // Format: https://{pull-zone}/{videoId}/play_480p.mp4
+  const pullZone = settings.bunnyPullZoneHost;
+  if (pullZone && video.guid) {
+    return `https://${pullZone}/${video.guid}/play_480p.mp4`;
+  }
+  
+  return video.previewVideoUrl;
 };
 
 const fetchAllVideos = async (): Promise<BunnyVideoItem[]> => {
@@ -116,7 +135,7 @@ const upsertMovies = async (videos: BunnyVideoItem[]): Promise<void> => {
   for (const video of videos) {
     const slug = slugify(video.title || video.guid);
     const thumbnailUrl = extractThumbnail(video);
-    const previewUrl = video.previewVideoUrl;
+    const previewUrl = extractPreviewUrl(video);
 
     const moviePayload = {
       title: video.title || 'Sans titre',
