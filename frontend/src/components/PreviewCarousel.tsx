@@ -41,8 +41,10 @@ const PreviewCard = ({ preview, isActive, onHover, onLeave }: PreviewCardProps) 
     <article
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
+      onTouchStart={onHover}
+      onTouchEnd={onLeave}
       className={clsx(
-        'relative aspect-square w-44 flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl bg-night-light poster-shadow transition-all duration-300',
+        'relative aspect-square w-36 sm:w-44 flex-shrink-0 cursor-pointer overflow-hidden rounded-xl sm:rounded-2xl bg-night-light poster-shadow transition-all duration-300',
         isActive ? 'scale-105 ring-2 ring-ember' : ''
       )}
     >
@@ -84,10 +86,10 @@ export const PreviewCarousel = () => {
 
   if (loading) {
     return (
-      <section className="mt-16">
-        <div className="flex gap-4">
+      <section className="mt-10 sm:mt-16">
+        <div className="-mx-3 flex gap-3 sm:gap-4 overflow-x-auto px-3">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="aspect-square w-44 animate-pulse rounded-2xl bg-night-light" />
+            <div key={i} className="aspect-square w-36 sm:w-44 flex-shrink-0 animate-pulse rounded-xl sm:rounded-2xl bg-night-light" />
           ))}
         </div>
       </section>
@@ -97,8 +99,8 @@ export const PreviewCarousel = () => {
   if (!previews.length) return null;
 
   return (
-    <section className="mt-16">
-      <div className="scroll-mask flex gap-5 overflow-x-auto pb-4">
+    <section className="mt-10 sm:mt-16">
+      <div className="scroll-mask -mx-3 flex gap-3 sm:gap-5 overflow-x-auto px-3 pb-4">
         {previews.map((preview) => (
           <PreviewCard
             key={preview.id}

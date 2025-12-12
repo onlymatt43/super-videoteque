@@ -2,6 +2,31 @@ import crypto from 'crypto';
 import { settings } from '../config/env.js';
 
 /**
+ * Generates a signed CDN URL for Bunny Stream assets (thumbnails, previews, etc.)
+ * Formula: base64url(SHA256(security_key + path + expires)) + &token_path=path
+ * See: https://docs.bunny.net/docs/stream-security
+ */
+export const generateSignedCdnUrl = (cdnUrl: string, ttlSeconds: number): string => {
+  const expires = Math.floor(Date.now() / 1000) + ttlSeconds;
+  
+  // Parse the URL to get the path
+  const url = new URL(cdnUrl);
+  const path = url.pathname;
+  
+  // Bunny CDN token: base64url(SHA256(security_key + path + expires))
+  const signaturePayload = `${settings.bunnySigningKey}${path}${expires}`;
+  const hash = crypto
+    .createHash('sha256')
+    .update(signaturePayload)
+    .digest('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '');
+
+  return `${cdnUrl}?token=${hash}&expires=${expires}`;
+};
+
+/**
  * Generates a signed embed URL for Bunny Stream
  * Formula: SHA256_HEX(token_security_key + video_id + expiration)
  * See: https://docs.bunny.net/docs/stream-embed-token-authentication

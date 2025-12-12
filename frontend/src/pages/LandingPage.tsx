@@ -13,19 +13,19 @@ export const LandingPage = () => (
       <span className="text-lg font-bold">?</span>
     </Link>
 
-    <section className="flex flex-col items-center justify-center gap-10 text-center">
+    <section className="flex flex-col items-center justify-center gap-6 sm:gap-10 text-center px-2">
       {/* Logo - replace src with your logo */}
       <img 
         src="/logo.png" 
         alt="Super Vidéothèque" 
-        className="h-32 w-auto object-contain"
+        className="h-20 sm:h-32 w-auto object-contain"
         onError={(e) => {
           // Fallback to text if logo not found
           e.currentTarget.style.display = 'none';
           e.currentTarget.nextElementSibling?.classList.remove('hidden');
         }}
       />
-      <h1 className="hidden font-display text-5xl uppercase tracking-[0.2em] text-ember sm:text-6xl">
+      <h1 className="hidden font-display text-3xl sm:text-5xl md:text-6xl uppercase tracking-[0.1em] sm:tracking-[0.2em] text-ember">
         Super Vidéothèque
       </h1>
       

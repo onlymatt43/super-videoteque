@@ -95,11 +95,11 @@ const extractThumbnail = (video: BunnyVideoItem): string | undefined => {
 };
 
 const extractPreviewUrl = (video: BunnyVideoItem): string | undefined => {
-  // Construire l'URL du preview directement depuis Bunny CDN
-  // Format: https://{pull-zone}/{videoId}/play_480p.mp4
+  // Construire l'URL du preview HLS directement depuis Bunny CDN
+  // Format: https://{pull-zone}/{videoId}/playlist.m3u8
   const pullZone = settings.bunnyPullZoneHost;
   if (pullZone && video.guid) {
-    return `https://${pullZone}/${video.guid}/play_480p.mp4`;
+    return `https://${pullZone}/${video.guid}/playlist.m3u8`;
   }
   
   return video.previewVideoUrl;
