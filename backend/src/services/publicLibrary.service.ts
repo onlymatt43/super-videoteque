@@ -67,8 +67,8 @@ export const fetchPublicPreviews = async (): Promise<PublicPreview[]> => {
       id: video.guid,
       title: cleanTitle(video.title),
       thumbnailUrl: `https://${BUNNY_PUBLIC_PULL_ZONE}/${video.guid}/${video.thumbnailFileName || 'thumbnail.jpg'}`,
-      previewUrl: `https://${BUNNY_PUBLIC_PULL_ZONE}/${video.guid}/play_480p.mp4`,
-      embedUrl: `https://iframe.mediadelivery.net/embed/${BUNNY_PUBLIC_LIBRARY_ID}/${video.guid}?autoplay=false`,
+      previewUrl: `https://${BUNNY_PUBLIC_PULL_ZONE}/${video.guid}/playlist.m3u8`,
+      embedUrl: `https://iframe.mediadelivery.net/embed/${BUNNY_PUBLIC_LIBRARY_ID}/${video.guid}?autoplay=true&muted=true&loop=true`,
       duration: video.length
     }));
   } catch (error) {

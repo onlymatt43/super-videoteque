@@ -36,25 +36,30 @@ export const PayhipForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="glass-panel w-full max-w-xl rounded-2xl p-6 backdrop-blur">
-      <p className="mb-6 text-sm uppercase tracking-[0.4em] text-slate">Étape 1 · Clé de licence</p>
+      <a 
+        href="https://payhip.com/storebytheom43team" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="mb-6 block text-sm uppercase tracking-[0.4em] text-ember hover:text-yellow-400 transition-colors"
+      >
+        Get Your Code →
+      </a>
       <div className="mb-4">
-        <label className="mb-2 block text-sm font-semibold text-white">Clé Payhip</label>
         <input
           type="text"
           value={code}
           onChange={(event) => setCode(event.target.value.trim())}
-          placeholder="EXEMPLE-1234-ABCD"
-          className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition focus:border-ember"
+          placeholder="Clé Payhip"
+          className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-slate/70 outline-none transition focus:border-ember focus:placeholder-transparent"
         />
       </div>
       <div className="mb-6">
-        <label className="mb-2 block text-sm font-semibold text-white">Email utilisé pour l'achat</label>
         <input
           type="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          placeholder="monemail@email.com"
-          className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition focus:border-ember"
+          placeholder="Email utilisé avec Payhip"
+          className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-slate/70 outline-none transition focus:border-ember focus:placeholder-transparent"
         />
       </div>
       {error && <p className="mb-4 text-sm text-red-400">{error}</p>}

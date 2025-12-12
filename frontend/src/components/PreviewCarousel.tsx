@@ -42,7 +42,7 @@ const PreviewCard = ({ preview, isActive, onHover, onLeave }: PreviewCardProps) 
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
       className={clsx(
-        'relative h-56 w-40 flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl bg-night-light poster-shadow transition-all duration-300',
+        'relative aspect-square w-44 flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl bg-night-light poster-shadow transition-all duration-300',
         isActive ? 'scale-105 ring-2 ring-ember' : ''
       )}
     >
@@ -85,12 +85,9 @@ export const PreviewCarousel = () => {
   if (loading) {
     return (
       <section className="mt-16">
-        <h2 className="mb-4 font-display text-2xl uppercase tracking-[0.3em] text-white">
-          Previews Gratuits
-        </h2>
         <div className="flex gap-4">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="h-56 w-40 animate-pulse rounded-2xl bg-night-light" />
+            <div key={i} className="aspect-square w-44 animate-pulse rounded-2xl bg-night-light" />
           ))}
         </div>
       </section>
@@ -101,12 +98,6 @@ export const PreviewCarousel = () => {
 
   return (
     <section className="mt-16">
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="font-display text-2xl uppercase tracking-[0.3em] text-white">
-          <span className="text-ember">▶</span> Previews Gratuits
-        </h2>
-        <span className="text-xs uppercase tracking-[0.4em] text-slate">Survolez pour preview</span>
-      </div>
       <div className="scroll-mask flex gap-5 overflow-x-auto pb-4">
         {previews.map((preview) => (
           <PreviewCard
