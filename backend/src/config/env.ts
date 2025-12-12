@@ -16,6 +16,7 @@ const envSchema = z.object({
   BUNNY_API_KEY: z.string().optional(),
   BUNNY_PUBLIC_LIBRARY_ID: z.string().optional(),
   BUNNY_PUBLIC_PULL_ZONE_HOST: z.string().optional(),
+  BUNNY_PUBLIC_API_KEY: z.string().optional(),
   DEFAULT_RENTAL_HOURS: z.string().default('48')
 });
 
@@ -41,6 +42,7 @@ export const settings = {
   bunnyApiKey: env.BUNNY_API_KEY,
   bunnyPublicLibraryId: env.BUNNY_PUBLIC_LIBRARY_ID,
   bunnyPublicPullZoneHost: env.BUNNY_PUBLIC_PULL_ZONE_HOST?.replace(/^https?:\/\//, ''),
+  bunnyPublicApiKey: env.BUNNY_PUBLIC_API_KEY,
   defaultRentalHours: Number(env.DEFAULT_RENTAL_HOURS)
 };
 

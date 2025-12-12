@@ -29,14 +29,14 @@ export interface PublicPreview {
 
 const BUNNY_PUBLIC_LIBRARY_ID = settings.bunnyPublicLibraryId;
 const BUNNY_PUBLIC_PULL_ZONE = settings.bunnyPublicPullZoneHost;
-const BUNNY_API_KEY = settings.bunnyApiKey;
+const BUNNY_PUBLIC_API_KEY = settings.bunnyPublicApiKey;
 
 /**
  * Fetches videos from the PUBLIC Bunny library (free previews)
  * These are directly accessible without signed URLs
  */
 export const fetchPublicPreviews = async (): Promise<PublicPreview[]> => {
-  if (!BUNNY_PUBLIC_LIBRARY_ID || !BUNNY_API_KEY) {
+  if (!BUNNY_PUBLIC_LIBRARY_ID || !BUNNY_PUBLIC_API_KEY) {
     console.warn('⚠️ Public library not configured');
     return [];
   }
@@ -46,7 +46,7 @@ export const fetchPublicPreviews = async (): Promise<PublicPreview[]> => {
       `https://video.bunnycdn.com/library/${BUNNY_PUBLIC_LIBRARY_ID}/videos`,
       {
         headers: {
-          AccessKey: BUNNY_API_KEY,
+          AccessKey: BUNNY_PUBLIC_API_KEY,
           Accept: 'application/json'
         },
         params: {
